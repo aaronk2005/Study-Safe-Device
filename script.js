@@ -1,4 +1,3 @@
-// script.js
 
 const socket = io(); // Automatically connects to the same server
 
