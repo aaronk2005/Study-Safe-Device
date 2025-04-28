@@ -1,25 +1,44 @@
 <!-- main.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Study Safe - Device Connected</title>
   <link rel="stylesheet" href="styles.css">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive Meta Tag -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive meta tag to ensure proper scaling on mobile devices -->
 </head>
+
 <body>
   <div class="container">
+    <!-- Header displaying the connection status -->
     <h1>Device Connected</h1>
+
+    <!-- Instructions for the user to select the mode of the device -->
     <p>Select the mode for your Study Safe device:</p>
+
+    <!-- Button to activate "Away Mode" for monitoring unauthorized movement -->
     <button id="awayButton" class="button" onclick="setMode('away')">Away Mode</button>
+
+    <!-- Button to activate "With Device Mode" to disable the alarm system -->
     <button id="withButton" class="button" onclick="setMode('with')">With Device Mode</button>
+
+    <!-- Warning message displayed if an error occurs or conditions are not met -->
     <div id="warningMessage" style="display:none; color: red; font-weight: bold; margin-top: 20px;"></div>
+
+    <!-- Data display area (for accelerometer data or system info) -->
     <div id="data" style="margin-top: 20px;"></div>
-    <!-- Disable Alarm Button -->
+
+    <!-- Button to disable the alarm if needed, initially hidden -->
     <button id="disableAlarmButton" class="button" style="display:none; margin-top: 20px;" onclick="disableAlarm()">Disable Alarm</button>
+
+    <!-- Button to disconnect the device -->
     <button class="button button-secondary" onclick="disconnectDevice()">Disconnect Device</button>
   </div>
+
+  <!-- External JavaScript files for real-time communication and additional functionality -->
   <script src="/socket.io/socket.io.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>
