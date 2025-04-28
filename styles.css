@@ -1,0 +1,124 @@
+/* styles.css */
+
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: #F5F5F5;
+    color: #333333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Container Styling */
+.container {
+    text-align: center;
+    padding: 20px 30px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 450px;
+    margin: 20px;
+}
+
+/* Logo Styling */
+.logo {
+    width: 150px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+/* Heading Styling */
+h1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #0056A3;
+}
+
+/* Button Styling */
+.button {
+    display: block;
+    width: 100%;
+    background-color: #0056A3;
+    color: #FFFFFF;
+    border: none;
+    padding: 14px 20px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 10px 0;
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+}
+
+.button:hover {
+    background-color: #004080;
+    transform: translateY(-2px);
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Secondary Button */
+.button-secondary {
+    background-color: #FFC107;
+    color: #333333;
+}
+
+.button-secondary:hover {
+    background-color: #E6A700;
+}
+
+/* Paragraph Styling */
+p {
+    font-size: 1rem;
+    color: #666666;
+    margin-bottom: 20px;
+    line-height: 1.5;
+}
+
+/* Input Field Styling */
+.input-field {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 10px 0;
+    border: 1px solid #CCCCCC;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+/* Active Button Styling */
+.active {
+    background-color: #28a745 !important;
+    color: #FFFFFF !important;
+    transform: translateY(0px) !important;
+    box-shadow: none !important;
+}
+
+/* Warning Message Styling */
+#warningMessage {
+    font-size: 1rem;
+    color: #FF0000;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 600px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    .button, .input-field {
+        font-size: 0.9rem;
+        padding: 12px 16px;
+    }
+}

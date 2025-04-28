@@ -1,0 +1,23 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Safe - Connect</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive Meta Tag -->
+</head>
+<body>
+  <div class="container">
+    <img src="Logo.png" alt="Study Safe Logo" class="logo">
+    <h1>Welcome to Study Safe</h1>
+    <!-- Phone Number Input -->
+    <input type="tel" id="phoneNumber" placeholder="Enter your phone number (e.g., +16471234567)" class="input-field">
+    <button id="saveNumberButton" class="button" onclick="savePhoneNumber()">Save Phone Number</button>
+    <button id="connectButton" class="button" onclick="connectToDevice()" disabled>Connect to Study Safe Device</button>
+    <button class="button button-secondary" onclick="navigateToInstructions()">Instructions</button>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

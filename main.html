@@ -1,0 +1,25 @@
+<!-- main.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Study Safe - Device Connected</title>
+  <link rel="stylesheet" href="styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Responsive Meta Tag -->
+</head>
+<body>
+  <div class="container">
+    <h1>Device Connected</h1>
+    <p>Select the mode for your Study Safe device:</p>
+    <button id="awayButton" class="button" onclick="setMode('away')">Away Mode</button>
+    <button id="withButton" class="button" onclick="setMode('with')">With Device Mode</button>
+    <div id="warningMessage" style="display:none; color: red; font-weight: bold; margin-top: 20px;"></div>
+    <div id="data" style="margin-top: 20px;"></div>
+    <!-- Disable Alarm Button -->
+    <button id="disableAlarmButton" class="button" style="display:none; margin-top: 20px;" onclick="disableAlarm()">Disable Alarm</button>
+    <button class="button button-secondary" onclick="disconnectDevice()">Disconnect Device</button>
+  </div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
