@@ -1,20 +1,18 @@
+// Initialize socket connection to the server
+const socket = io(); // Automatically connects to the server that served the page
 
-const socket = io(); // Automatically connects to the same server
-
+// Save user's phone number
 function savePhoneNumber() {
   const phoneInput = document.getElementById('phoneNumber');
   const userPhoneNumber = phoneInput.value.trim();
 
-  // Validation for Canadian phone numbers in E.164 format
+  // Validate Canadian phone numbers (E.164 format)
   const phoneRegex = /^\+1\d{10}$/;
 
   if (phoneRegex.test(userPhoneNumber)) {
-    // Send the phone number to the server (server will ignore it)
-    socket.emit('savePhoneNumber', userPhoneNumber);
+    socket.emit('savePhoneNumber', userPhoneNumber); // Send phone number to server
     alert('Phone number saved!');
-    // Enable the connect button
-    document.getElementById('connectButton').disabled = false;
-    // Disable the save number button and input
+    document.getElementById('connectButton').disabled = false; // Enable connect button
     phoneInput.disabled = true;
     document.getElementById('saveNumberButton').disabled = true;
   } else {
@@ -22,10 +20,12 @@ function savePhoneNumber() {
   }
 }
 
+// Navigate to connecting page
 function connectToDevice() {
   window.location.href = 'connecting.html';
 }
 
+// Set device mode (away or with device)
 function setMode(mode) {
   console.log(`Attempting to set mode to: ${mode}`);
   const awayButton = document.getElementById('awayButton');
@@ -42,7 +42,8 @@ function setMode(mode) {
     withButton.classList.add('active');
     awayButton.classList.remove('active');
     socket.emit('setMode', 'with');
-    // Clear warning message and hide disable alarm button
+
+    // Clear warning and hide disable alarm button
     if (warningDiv) {
       warningDiv.innerText = '';
       warningDiv.style.display = 'none';
@@ -54,7 +55,7 @@ function setMode(mode) {
   }
 }
 
-// Real-time accelerometer data updates
+// Receive and display real-time accelerometer data
 socket.on('accelerometerData', (data) => {
   const { X, Y, Z } = data;
   const dataDiv = document.getElementById('data');
@@ -67,10 +68,11 @@ socket.on('accelerometerData', (data) => {
   }
 });
 
-// Real-time alarm notifications
+// Handle alarm trigger notification
 socket.on('alarmTriggered', () => {
   const warningDiv = document.getElementById('warningMessage');
   const disableAlarmButton = document.getElementById('disableAlarmButton');
+
   if (warningDiv) {
     warningDiv.innerText = '🚨 Your device is on the move!';
     warningDiv.style.display = 'block';
@@ -80,17 +82,19 @@ socket.on('alarmTriggered', () => {
   }
 });
 
-// Disable alarm function
+// Disable the active alarm
 function disableAlarm() {
   setMode('with');
   socket.emit('disableAlarm');
   alert('Alarm disabled. Device set to "With Device Mode".');
 }
 
+// Disconnect device and return to home page
 function disconnectDevice() {
   window.location.href = 'index.html';
 }
 
+// Navigate to instructions page
 function navigateToInstructions() {
   window.location.href = 'instructions.html';
 }
