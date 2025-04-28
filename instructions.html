@@ -1,20 +1,48 @@
+<!-- instructions.html -->
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Study Safe - Instructions</title>
   <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
   <div class="container">
+    <!-- Main heading for instructions page -->
     <h1>Instructions</h1>
-    <p>Here you can provide instructions on how to use the Study Safe device.</p>
+
+    <!-- General instructions about how to use the Study Safe device -->
+    <p>Follow the steps below to get started with your Study Safe device:</p>
+
+    <ol>
+      <!-- Step 1: Set up the device -->
+      <li><strong>Set up your Study Safe device:</strong> Connect the device to power and ensure it is turned on. Make sure the accelerometer is properly connected.</li>
+
+      <!-- Step 2: Connect to Wi-Fi -->
+      <li><strong>Connect the device to Wi-Fi:</strong> Follow the on-screen prompts to connect the device to a Wi-Fi network. You'll need to input the network's SSID and password.</li>
+
+      <!-- Step 3: Enter phone number -->
+      <li><strong>Enter your phone number:</strong> Input your phone number so that you can receive alerts in case of unauthorized movement. Ensure the number is in the correct format (e.g., +16471234567).</li>
+
+      <!-- Step 4: Activate the system -->
+      <li><strong>Activate the monitoring system:</strong> Once connected, you can toggle between 'Away Mode' and 'With Device Mode'. 'Away Mode' will monitor for unauthorized movement, while 'With Device Mode' will deactivate the alarm.</li>
+
+      <!-- Step 5: Receive alerts -->
+      <li><strong>Receive real-time alerts:</strong> If movement is detected in 'Away Mode', an alarm will sound, and you will receive an SMS alert on your phone.</li>
+    </ol>
+
+    <!-- Button to go back to the previous page -->
     <button class="button" onclick="goBack()">Go Back</button>
   </div>
+
   <script>
+    // Function to navigate back to the previous page in the browser history
     function goBack() {
       window.history.back();
     }
   </script>
 </body>
+
 </html>
