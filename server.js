@@ -1,6 +1,5 @@
-// server.js
-
-require('dotenv').config(); // Load environment variables at the very top
+// Load environment variables (Twilio credentials) from .env file
+require('dotenv').config();
 
 const express = require('express');
 const http = require('http');
@@ -13,47 +12,41 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-// Twilio configuration using environment variables
+// Twilio configuration
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const twilioClient = twilio(accountSid, authToken);
 const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
 
-// Middleware
+// Middleware setup
 app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
-// Serve static files
-app.use(express.static(__dirname));
+app.use(express.static(__dirname)); // Serve static frontend files
 
 // Global variables
-let currentMode = 'with';
-let pendingCommands = [];
+let currentMode = 'with';           // Device mode (away or with)
+let pendingCommands = [];           // Queue for commands to send to Arduino
 
-// **Hard-coded phone number**
+// Hard-coded phone number to receive SMS alerts
 const userPhoneNumber = '+16475284181'; // Replace with your phone number
 
-// Route to handle accelerometer data from Arduino
+// Route to receive accelerometer data from Arduino
 app.post('/data', (req, res) => {
   const { X, Y, Z, mode } = req.body;
   console.log(`Accelerometer Data Received: X=${X}, Y=${Y}, Z=${Z}, Mode=${mode}`);
 
-  // Broadcast data to the front-end via WebSocket
-  io.emit('accelerometerData', { X, Y, Z });
-
-  // Respond back to the Arduino
-  res.status(200).send('Data received');
+  io.emit('accelerometerData', { X, Y, Z }); // Forward data to the frontend
+  res.status(200).send('Data received');      // Respond to Arduino
 });
 
-// Route to handle alarm status from Arduino
+// Route to receive alarm triggers from Arduino
 app.post('/alarm', (req, res) => {
   console.log('Alarm Triggered! Movement detected in Away mode.');
 
-  // Broadcast alarm notification to the front-end
-  io.emit('alarmTriggered');
+  io.emit('alarmTriggered'); // Notify frontend that alarm is triggered
 
-  // Send SMS to the hard-coded phone number
+  // Send SMS alert via Twilio
   if (userPhoneNumber) {
     twilioClient.messages
       .create({
@@ -71,25 +64,24 @@ app.post('/alarm', (req, res) => {
     console.log('No phone number stored. SMS not sent.');
   }
 
-  // Respond back to the Arduino
   res.status(200).send('Alarm received');
 });
 
-// Route to send commands to Arduino
+// Route for Arduino to pull pending commands (polling)
 app.get('/command', (req, res) => {
   if (pendingCommands.length > 0) {
-    const command = pendingCommands.shift();
+    const command = pendingCommands.shift(); // Get next command
     res.send(command);
   } else {
-    res.send('');
+    res.send(''); // No command available
   }
 });
 
-// WebSocket connection with front-end
+// WebSocket connection handling
 io.on('connection', (socket) => {
   console.log('A user connected:', socket.id);
 
-  // Listen for mode changes from the front-end
+  // Handle mode change from frontend
   socket.on('setMode', (mode) => {
     currentMode = mode;
     console.log(`Mode set to: ${currentMode}`);
@@ -100,18 +92,19 @@ io.on('connection', (socket) => {
     }
   });
 
-  // The server ignores any phone number sent by the client
+  // Log phone numbers received (but ignore them)
   socket.on('savePhoneNumber', (phoneNumber) => {
     console.log(`Received phone number from client (ignored): ${phoneNumber}`);
   });
 
-  // Listen for "disableAlarm" event from the client
+  // Handle disable alarm request from frontend
   socket.on('disableAlarm', () => {
     currentMode = 'with';
     console.log('Alarm disabled by the user.');
     pendingCommands.push('stopMonitoring');
   });
 
+  // Handle user disconnect
   socket.on('disconnect', () => {
     console.log('A user disconnected:', socket.id);
   });
